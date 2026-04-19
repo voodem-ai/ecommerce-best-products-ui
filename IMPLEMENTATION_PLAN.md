@@ -12,41 +12,39 @@ Build a premium, modern React frontend where users can type natural-language pro
 - [x] `Dockerfile` (multistage: build with Vite → serve with Nginx)
 - [x] `.gitignore`, `README.md`
 
-## Phase 2: Design System
+## Phase 2: Design System ✅
 - [x] `index.css` – CSS variables, glassmorphism, animated gradients, premium typography (Outfit)
-- [ ] Component-level CSS modules for encapsulation
-- [ ] Dark mode as default with optional light mode toggle
+- [x] Component-level CSS files for encapsulation
+- [x] Dark mode as default
+- [ ] Optional light mode toggle
 - [ ] Responsive breakpoints (mobile, tablet, desktop)
 
-## Phase 3: Core Components
-- [x] `App.tsx` – Main layout with search and results
-- [ ] `components/Header.tsx` – App title + branding with animated gradient
-- [ ] `components/SearchBar.tsx` – Premium chat-like input with send button
-- [ ] `components/ProductCard.tsx` – Card showing product name, price, rating, buyers, source
-- [ ] `components/ProductGrid.tsx` – Responsive grid of ProductCards
-- [ ] `components/LoadingSpinner.tsx` – Animated skeleton/pulse while waiting
-- [ ] `components/ErrorMessage.tsx` – Graceful error display
-- [ ] `components/MarkdownRenderer.tsx` – Render Gemini's markdown response
+## Phase 3: Core Components ✅
+- [x] `App.tsx` – Main layout with state management and API integration
+- [x] `components/Header.tsx` – App title + branding with animated gradient
+- [x] `components/SearchBar.tsx` – Premium input with example prompt chips
+- [x] `components/ProductCard.tsx` – Card with store badge, price, rating, buyers
+- [x] `components/ResultSection.tsx` – Markdown rendering for Gemini responses
+- [x] `components/LoadingSpinner.tsx` – Three-dot pulse animation
+- [x] `components/ErrorMessage.tsx` – Error display with retry button
 
-## Phase 4: API Integration
-- [ ] `services/api.ts` – Typed API client for `/recommend` endpoint
-- [ ] Environment-based API URL configuration
-- [ ] Loading, error, and success state management
-- [ ] Abort controller for cancelling in-flight requests
+## Phase 4: API Integration ✅
+- [x] `services/api.ts` – Typed API client for `/recommend` endpoint
+- [x] `AbortController` for cancelling in-flight requests
+- [x] Loading, error, and success state management
+- [x] `.env.example` – `VITE_API_URL` for configurable backend
 
-## Phase 5: State Management & UX
-- [ ] Search history (localStorage)
-- [ ] Debounced search suggestions
-- [ ] Keyboard shortcuts (Enter to search)
-- [ ] Empty state with example prompts
-- [ ] Toast notifications for errors
+## Phase 5: Environment Setup ✅
+- [x] `.env.example` – Template with `VITE_API_URL`
+- [x] Environment-based API URL configuration via `import.meta.env`
+- [x] `SKILLS.md` – Complete skills documentation
 
-## Phase 6: Polish & Animations
-- [ ] Page entrance animations (slide-up, fade-in)
-- [ ] Card hover effects (lift, glow)
-- [ ] Typing indicator while waiting
-- [ ] Smooth transitions between states
-- [ ] Responsive mobile layout
+## Phase 6: Polish & Animations ✅
+- [x] Page entrance animations (slide-up, fade-in)
+- [x] Card hover effects (lift, glow, border accent)
+- [x] Loading indicator with status text
+- [x] Smooth transitions between states
+- [ ] Responsive mobile layout refinements
 
 ## Phase 7: Testing & Build
 - [ ] Verify TypeScript compilation
@@ -55,7 +53,7 @@ Build a premium, modern React frontend where users can type natural-language pro
 
 ---
 
-## File Structure (Target)
+## File Structure
 ```
 ecommerce-best-products-ui/
 ├── src/
@@ -64,15 +62,17 @@ ecommerce-best-products-ui/
 │   ├── index.css
 │   ├── vite-env.d.ts
 │   ├── components/
-│   │   ├── Header.tsx
-│   │   ├── SearchBar.tsx
-│   │   ├── ProductCard.tsx
-│   │   ├── ProductGrid.tsx
-│   │   ├── LoadingSpinner.tsx
-│   │   ├── ErrorMessage.tsx
-│   │   └── MarkdownRenderer.tsx
+│   │   ├── Header.tsx / Header.css
+│   │   ├── SearchBar.tsx / SearchBar.css
+│   │   ├── ProductCard.tsx / ProductCard.css
+│   │   ├── ResultSection.tsx / ResultSection.css
+│   │   ├── LoadingSpinner.tsx / LoadingSpinner.css
+│   │   └── ErrorMessage.tsx / ErrorMessage.css
 │   └── services/
 │       └── api.ts
+├── .env.example       ← NEW: VITE_API_URL config
+├── SKILLS.md          ← NEW: skills documentation
+├── IMPLEMENTATION_PLAN.md
 ├── index.html
 ├── package.json
 ├── tsconfig.json
