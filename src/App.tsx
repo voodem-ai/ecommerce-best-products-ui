@@ -1,67 +1,61 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react';
+import Header from './components/Header';
+import SearchBar from './components/SearchBar';
+import LoadingSpinner from './components/LoadingSpinner';
+import ResultSection from './components/ResultSection';
+import ErrorMessage from './components/ErrorMessage';
+import { fetchRecommendation, type RecommendResponse } from './services/api';
 
 function App() {
-  const [prompt, setPrompt] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<RecommendResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [lastPrompt, setLastPrompt] = useState('');
+  const abortRef = useRef<AbortController | null>(null);
 
-  const handleSearch = async () => {
-    if (!prompt.trim()) return;
-    
-    setLoading(true)
-    setResult(null)
-    
+  const handleSearch = async (prompt: string) => {
+    // Cancel any in-flight request
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    setLoading(true);
+    setResult(null);
+    setError(null);
+    setLastPrompt(prompt);
+
     try {
-      const response = await fetch('http://localhost:8001/recommend', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ prompt })
-      })
-      
-      const data = await response.json()
-      setResult(data.recommendation)
-    } catch (error) {
-      console.error(error)
-      setResult("Error communicating with MCP Client.")
+      const data = await fetchRecommendation(prompt, controller.signal);
+      setResult(data);
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === 'AbortError') return;
+      const message = err instanceof Error ? err.message : 'Something went wrong';
+      setError(message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+
+  const handleRetry = () => {
+    if (lastPrompt) handleSearch(lastPrompt);
+  };
 
   return (
     <div className="container">
-      <h1>AI E-Commerce Finder</h1>
-      <p className="subtitle">Discover the highest-rated, lowest-priced items from multiple stores instantly.</p>
-      
-      <div className="search-box">
-        <input 
-          type="text" 
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="e.g., I need a cheap but top-rated mechanical keyboard..."
-          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-        />
-        <button onClick={handleSearch} disabled={loading || !prompt.trim()}>
-          {loading ? 'Searching...' : 'Find Best'}
-        </button>
-      </div>
+      <Header />
+      <SearchBar onSearch={handleSearch} loading={loading} />
 
-      {loading && (
-        <div className="loading">
-          Analyzing millions of products via Gemini MCP...
-        </div>
-      )}
+      {loading && <LoadingSpinner />}
+      {error && <ErrorMessage message={error} onRetry={handleRetry} />}
+      {result && <ResultSection recommendation={result.recommendation} />}
 
-      {result && (
-        <div className="result">
-          {/* Simple formatting render since it's raw text/markdown from Gemini */}
-          <div dangerouslySetInnerHTML={{ __html: result.replace(/\n/g, '<br/>') }} />
-        </div>
+      {result?.cached && (
+        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: '1rem' }}>
+          ⚡ Served from cache
+        </p>
       )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
