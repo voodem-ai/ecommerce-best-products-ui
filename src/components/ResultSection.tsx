@@ -14,7 +14,9 @@ export default function ResultSection({ recommendation }: ResultSectionProps) {
     .replace(/^# (.+)$/gm, '<h1>$1</h1>')
     .replace(/^- (.+)$/gm, '<li>$1</li>')
     .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-    .replace(/\n/g, '<br/>');
+    .replace(/\n/g, '<br/>')
+    // Make ALL links open in a new tab safely
+    .replace(/<a\s+href=/gi, '<a target="_blank" rel="noopener noreferrer" href=');
 
   return (
     <div className="result-section">

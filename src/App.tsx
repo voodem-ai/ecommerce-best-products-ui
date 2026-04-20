@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar';
 import LoadingSpinner from './components/LoadingSpinner';
 import ResultSection from './components/ResultSection';
 import ErrorMessage from './components/ErrorMessage';
+import AdBanner from './components/AdBanner';
 import { fetchRecommendation, type RecommendResponse } from './services/api';
 
 function App() {
@@ -41,20 +42,25 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <Header />
-      <SearchBar onSearch={handleSearch} loading={loading} />
+    <>
+      <div className="container">
+        <Header />
+        <SearchBar onSearch={handleSearch} loading={loading} />
 
-      {loading && <LoadingSpinner />}
-      {error && <ErrorMessage message={error} onRetry={handleRetry} />}
-      {result && <ResultSection recommendation={result.recommendation} />}
+        {loading && <LoadingSpinner />}
+        {error && <ErrorMessage message={error} onRetry={handleRetry} />}
+        {result && <ResultSection recommendation={result.recommendation} />}
 
-      {result?.cached && (
-        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: '1rem' }}>
-          ⚡ Served from cache
-        </p>
-      )}
-    </div>
+        {result?.cached && (
+          <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: '1rem' }}>
+            ⚡ Served from cache
+          </p>
+        )}
+      </div>
+
+      {/* Fixed bottom-right ad banner – always visible */}
+      <AdBanner />
+    </>
   );
 }
 
