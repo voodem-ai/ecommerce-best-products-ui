@@ -17,7 +17,8 @@ User → React UI (this repo) → MCP Client API → Gemini + MCP Server → Pro
 | Styling | Vanilla CSS (glassmorphism, animations, gradients) |
 | Typography | Google Fonts (Outfit) |
 | State | React Hooks |
-| Container | Docker (Vite build → Nginx alpine) |
+| Container | Docker (Vite build → Nginx alpine) + Nginx reverse proxy for internal K8s routing |
+| Deployment | Helm chart with NodePort Service and GCE Ingress |
 | Config | `.env` with `VITE_` prefixed variables |
 
 ## Quick Start
@@ -76,8 +77,11 @@ src/
 │   ├── ResultSection.tsx / ResultSection.css
 │   ├── LoadingSpinner.tsx / LoadingSpinner.css
 │   └── ErrorMessage.tsx / ErrorMessage.css
-└── services/
-    └── api.ts
+├── services/
+│   └── api.ts
+├── helm/
+│   └── ecommerce-ui/          # Helm chart deployment files
+└── nginx.conf                 # Reverse proxy configuration for internal /api/ calls
 ```
 
 ## License

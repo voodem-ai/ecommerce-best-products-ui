@@ -1,0 +1,29 @@
+replicaCount: 1
+
+image:
+  repository: REPLACE_ME_UI_IMAGE
+  pullPolicy: IfNotPresent
+  tag: ""
+
+nameOverride: ""
+fullnameOverride: "ecommerce-ui"
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: true
+  className: "gce"
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "ecommerce-alb-public-ip"
+  hosts:
+    - host: ""
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}

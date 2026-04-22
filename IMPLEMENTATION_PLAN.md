@@ -51,6 +51,11 @@ Build a premium, modern React frontend where users can type natural-language pro
 - [ ] Production build (`npm run build`)
 - [ ] Docker build validation
 
+## Phase 8: Deployment (Helm) ✅
+- [x] Create Helm chart in `helm/ecommerce-ui/`
+- [x] Set up Nginx reverse proxy for `/api/` routing to internal client service
+- [x] Update GitHub Actions to deploy via `helm upgrade --install`
+
 ---
 
 ## File Structure
@@ -70,8 +75,11 @@ ecommerce-best-products-ui/
 │   │   └── ErrorMessage.tsx / ErrorMessage.css
 │   └── services/
 │       └── api.ts
-├── .env.example       ← NEW: VITE_API_URL config
-├── SKILLS.md          ← NEW: skills documentation
+├── helm/
+│   └── ecommerce-ui/          ← NEW: Helm chart deployment files
+├── nginx.conf                 ← NEW: Reverse proxy configuration
+├── .env.example               ← NEW: VITE_API_URL config
+├── SKILLS.md                  ← NEW: skills documentation
 ├── IMPLEMENTATION_PLAN.md
 ├── index.html
 ├── package.json

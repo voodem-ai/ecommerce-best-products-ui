@@ -36,7 +36,11 @@ Technical skills and competencies required to develop, maintain, and extend this
 
 ### Docker
 - **Multi-stage builds** – Vite build → Nginx alpine for static serving
-- **Nginx** – Static file serving, SPA routing (future)
+- **Nginx Reverse Proxy** – Custom `nginx.conf` to serve static files and proxy `/api/` calls to the internal cluster network.
+
+### Kubernetes & Deployment
+- **Helm** – Managing deployments using a centralized Helm chart (`helm/ecommerce-ui/`)
+- **Ingress Configuration** – Using `NodePort` and GCE `Ingress` pointing to a global static IP.
 
 ### Environment Management
 - **`.env` files** – Vite `VITE_` prefixed variables for browser-safe config
